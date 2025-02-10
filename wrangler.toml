@@ -4,7 +4,7 @@ type = "javascript"
 account_id = "18a3acc641e1b3e82ecd100c38cba814"
 workers_dev = true
 route = ""
-zone_id = ""
+zone_id = ""  # Update this if deploying to a custom domain
 
 [build]
 command = "npx wrangler deploy"
