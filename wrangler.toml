@@ -1,0 +1,10 @@
+name = "chapp-test"
+type = "javascript"
+
+account_id = "18a3acc641e1b3e82ecd100c38cba814"
+workers_dev = true
+route = ""
+zone_id = ""
+
+[build]
+command = "npx wrangler deploy"
