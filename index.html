@@ -6,7 +6,7 @@
     <title>Cloudflare CHapp test</title>
     <style>
         body { font-family: Arial, sans-serif; text-align: center; }
-        #chatbox { width: 80%; height: 300px; overflow-y: scroll; border: 1px solid #ccc; padding: 10px; margin: 10px auto; }
+        #chatbox { width: 80%; height: 300px; overflow-y: scroll; border: 1px solid #ccc; padding: 10px; margin: 10px auto; white-space: pre-wrap; text-align: left; }
         #message { width: 70%; padding: 5px; }
         #send { padding: 5px; }
     </style>
@@ -15,16 +15,28 @@
     <h1>CHapp Beta</h1>
     <div id="chatbox"></div>
     <input type="text" id="message" placeholder="Type a message...">
-    <button id="send">Send</button>
+    <button id="send" disabled>Send</button>
     
     <script>
         const ws = new WebSocket("wss://chapp-test.quackahh123.workers.dev/");
 
         ws.onmessage = (event) => {
             const chatbox = document.getElementById("chatbox");
-            chatbox.innerHTML += `<p>${event.data}</p>`;
+            const message = event.data;
+
+            // Escape message to prevent XSS
+            const text = document.createTextNode(message);
+            const messageElement = document.createElement("p");
+            messageElement.appendChild(text);
+
+            chatbox.appendChild(messageElement);
             chatbox.scrollTop = chatbox.scrollHeight;
         };
+
+        // Enable send button when there is input
+        document.getElementById("message").addEventListener('input', () => {
+            document.getElementById("send").disabled = !document.getElementById("message").value;
+        });
 
         document.getElementById("send").onclick = () => {
             const message = document.getElementById("message").value;
