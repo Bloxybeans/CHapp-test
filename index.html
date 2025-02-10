@@ -18,7 +18,7 @@
     <button id="send">Send</button>
     
     <script>
-        const ws = new WebSocket("wss://your-cloudflare-worker-domain/");
+        const ws = new WebSocket("wss://chapp-test.quackahh123.workers.dev/");
 
         ws.onmessage = (event) => {
             const chatbox = document.getElementById("chatbox");
