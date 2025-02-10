@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloudflare CHapp test</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        #chatbox { width: 80%; height: 300px; overflow-y: scroll; border: 1px solid #ccc; padding: 10px; margin: 10px auto; }
+        #message { width: 70%; padding: 5px; }
+        #send { padding: 5px; }
+    </style>
+</head>
+<body>
+    <h1>CHapp Beta</h1>
+    <div id="chatbox"></div>
+    <input type="text" id="message" placeholder="Type a message...">
+    <button id="send">Send</button>
+    
+    <script>
+        const ws = new WebSocket("wss://your-cloudflare-worker-domain/");
+
+        ws.onmessage = (event) => {
+            const chatbox = document.getElementById("chatbox");
+            chatbox.innerHTML += `<p>${event.data}</p>`;
+            chatbox.scrollTop = chatbox.scrollHeight;
+        };
+
+        document.getElementById("send").onclick = () => {
+            const message = document.getElementById("message").value;
+            if (message) {
+                ws.send(message);
+                document.getElementById("message").value = "";
+            }
+        };
+    </script>
+</body>
+</html>
